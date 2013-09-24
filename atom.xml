@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[山青云白的BLOG]]></title>
   <link href="http://fortick.github.io/atom.xml" rel="self"/>
   <link href="http://fortick.github.io/"/>
-  <updated>2013-09-24T11:36:03+08:00</updated>
+  <updated>2013-09-24T11:50:31+08:00</updated>
   <id>http://fortick.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[qingyun]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Just for fun]]></title>
+    <link href="http://fortick.github.io/blog/2013/09/24/just-for-fun/"/>
+    <updated>2013-09-24T11:41:00+08:00</updated>
+    <id>http://fortick.github.io/blog/2013/09/24/just-for-fun</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
 </feed>
