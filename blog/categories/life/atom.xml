@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[山青云白的BLOG]]></title>
-  <link href="http://fortick.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: life | 山青云白的BLOG]]></title>
+  <link href="http://fortick.github.io/blog/categories/life/atom.xml" rel="self"/>
   <link href="http://fortick.github.io/"/>
   <updated>2013-09-24T21:28:57+08:00</updated>
   <id>http://fortick.github.io/</id>
