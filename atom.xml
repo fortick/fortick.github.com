@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[山青云白的BLOG]]></title>
-  <link href="http://fortick.github.io/atom.xml" rel="self"/>
-  <link href="http://fortick.github.io/"/>
-  <updated>2013-09-25T12:36:40+08:00</updated>
-  <id>http://fortick.github.io/</id>
+  <link href="http://blog.qingyunliao.com/atom.xml" rel="self"/>
+  <link href="http://blog.qingyunliao.com/"/>
+  <updated>2013-09-25T15:15:16+08:00</updated>
+  <id>http://blog.qingyunliao.com/</id>
   <author>
     <name><![CDATA[cloud]]></name>
     

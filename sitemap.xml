@@ -1,19 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://fortick.github.io/blog/archives/</loc>
+        <loc>http://blog.qingyunliao.com/about/</loc>
+        <lastmod>2013-09-25T12:43:41+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.qingyunliao.com/blog/archives/</loc>
         <lastmod>2013-09-25T11:13:18+08:00</lastmod>
     </url>
     <url>
-        <loc>http://fortick.github.io/</loc>
+        <loc>http://blog.qingyunliao.com/</loc>
         <lastmod>2013-09-25T11:13:18+08:00</lastmod>
     </url>
     <url>
-        <loc>http://fortick.github.io/new-page/</loc>
+        <loc>http://blog.qingyunliao.com/new-page/</loc>
         <lastmod>2013-09-25T11:13:17+08:00</lastmod>
     </url>
     <url>
-        <loc>http://fortick.github.io/robots.txt</loc>
+        <loc>http://blog.qingyunliao.com/robots.txt</loc>
         <lastmod>2013-09-25T11:13:18+08:00</lastmod>
     </url>
 </urlset>
