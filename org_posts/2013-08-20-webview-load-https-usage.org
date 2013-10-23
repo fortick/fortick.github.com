@@ -1,0 +1,136 @@
+#+BEGIN_HTML
+---
+layout: post
+title: "UIWebView 使用要注意的几点"
+date: 2013-10-24 00:13
+comments: true
+categories: 
+---
+#+END_HTML
+
+最近有客户希望将移动端统一使用HTML5来完成，在iOS端就要用到UIWebView。遇到了以下三个主要问题：
+
+* 加载HTTPS页面
+  
+  不像Safari可以弹出弹框问用户是否忽略证书，在UIWebView中只会得到一个空白页。由于UIWebView并没有提供HTTPS相关的接口，所以不能直接在UIWebView中进行操作。经过stackoverflow知道，原来可以先通过NSURLConnection通过HTTPS验证，然后再用UIWebView加载页面，这样就达到了想要的目的。
+
+  #+BEGIN_SRC objc
+    #pragma mark - Webview delegate
+    
+    - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+    {
+        NSLog(@"Did start loading: %@ auth:%d", [[request URL] absoluteString], _authenticated);
+        
+        if (!_authenticated) {
+            _authenticated = NO;
+            
+            _urlConnection = [[NSURLCoNnection alloc] initWithRequest:_request delegate:self];
+    
+            [_urlConnection start];
+            
+            return NO;
+        }
+        
+        return YES;
+    }
+    
+    #pragma mark - NURLConnection delegate
+    
+    - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge;
+    {
+        NSLog(@"WebController Got auth challange via NSURLConnection");
+        
+        if ([challenge previousFailureCount] == 0)
+        {
+            _authenticated = YES;
+            
+            NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+            
+            [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+            
+        } else
+        {
+            [[challenge sender] cancelAuthenticationChallenge:challenge];
+        }
+    }
+    
+    - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
+    {
+        NSLog(@"WebController received response via NSURLConnection");
+        
+        // remake a webview call now that authentication has passed ok.
+        _authenticated = YES;
+        
+        [_web loadRequest:_request];
+        
+        // Cancel the URL connection otherwise we double up (webview + url connection, same url = no good!)
+        [_urlConnection cancel];
+    }
+    
+    // We use this method is to accept an untrusted site which unfortunately we need to do, as our PVM servers are self signed.
+    - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+    {
+        return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+    }
+    
+#+END_SRC
+
+* 中文乱码
+  
+  由于服务器端使用的编码是GBK，UIWebView默认的是UTF-8编码，导致加载时出现乱码。将UIWebView的loadRequest方法用loadData方法来代替，具体代码如下：
+
+  #+BEGIN_SRC objc
+    NSURL *url = [NSURL URLWithString:_address.text];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    [_web loadData:data MIMEType:@"text/html" textEncodingName:@"GBK" baseURL:url];
+    
+#+END_SRC
+
+* 旋转自适应
+  
+  当iOS设备从Portrait旋转为Landscape时，UIWebView的宽度只占屏幕的一半。发现是autoResize的相关参数没有进行设置，应该设置如下：
+  
+  #+BEGIN_SRC objc
+  _web.scalesPageToFit = YES;
+  _web.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  
+#+END_SRC
+  
+  又由于不同的Orientation，其缩放参数不一样，所以在旋转时应对scrollView的zoomScale进行设置，如下：
+  
+  #+BEGIN_SRC objc
+    - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+        
+        NSLog(@"willRotateToInterfaceOrientation");
+        
+        CGFloat ratioAspect = _web.bounds.size.width/_web.bounds.size.height;
+        switch (toInterfaceOrientation) {
+            case UIInterfaceOrientationPortraitUpsideDown:
+            case UIInterfaceOrientationPortrait:
+                // Going to Portrait mode
+                NSLog(@"Portrait mode");
+                for (UIScrollView *scroll in [_web subviews]) { //we get the scrollview
+                    // Make sure it really is a scroll view and reset the zoom scale.
+                    if ([scroll respondsToSelector:@selector(setZoomScale:)]){
+                        scroll.minimumZoomScale = scroll.minimumZoomScale/ratioAspect;
+                        scroll.maximumZoomScale = scroll.maximumZoomScale/ratioAspect;
+                        [scroll setZoomScale:(scroll.zoomScale/ratioAspect) animated:YES];
+                    }
+                }
+                break;
+            default:
+                // Going to Landscape mode
+                NSLog(@"Landscape mode");
+                for (UIScrollView *scroll in [_web subviews]) { //we get the scrollview
+                    // Make sure it really is a scroll view and reset the zoom scale.
+                    if ([scroll respondsToSelector:@selector(setZoomScale:)]){
+                        scroll.minimumZoomScale = scroll.minimumZoomScale *ratioAspect;
+                        scroll.maximumZoomScale = scroll.maximumZoomScale *ratioAspect;
+                        [scroll setZoomScale:(scroll.zoomScale*ratioAspect) animated:YES];
+                    }
+                }
+                break;
+        }
+    }
+  #+END_SRC
+
