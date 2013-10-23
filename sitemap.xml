@@ -1,20 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://blog.qingyunliao.com/blog/2013/10/24/orgmode/</loc>
-        <lastmod>2013-10-24T00:59:06+08:00</lastmod>
-    </url>
-    <url>
         <loc>http://blog.qingyunliao.com/about/</loc>
         <lastmod>2013-09-25T12:43:41+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.qingyunliao.com/blog/archives/</loc>
-        <lastmod>2013-10-24T00:59:06+08:00</lastmod>
+        <lastmod>2013-09-25T11:13:18+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.qingyunliao.com/</loc>
-        <lastmod>2013-10-24T00:59:06+08:00</lastmod>
+        <lastmod>2013-09-25T11:13:18+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.qingyunliao.com/new-page/</loc>

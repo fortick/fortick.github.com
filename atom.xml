@@ -4,7 +4,7 @@
   <title><![CDATA[山青云白的BLOG]]></title>
   <link href="http://blog.qingyunliao.com/atom.xml" rel="self"/>
   <link href="http://blog.qingyunliao.com/"/>
-  <updated>2013-10-24T00:59:29+08:00</updated>
+  <updated>2013-10-24T01:02:21+08:00</updated>
   <id>http://blog.qingyunliao.com/</id>
   <author>
     <name><![CDATA[cloud]]></name>
@@ -12,36 +12,5 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[orgmode]]></title>
-    <link href="http://blog.qingyunliao.com/blog/2013/10/24/orgmode/"/>
-    <updated>2013-10-24T00:13:00+08:00</updated>
-    <id>http://blog.qingyunliao.com/blog/2013/10/24/orgmode</id>
-    <content type="html"><![CDATA[<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1 你说是什么呢？</a></li>
-</ul>
-</div>
-</div>
-
-
-
-
-<div id="outline-container-1" class="outline-2">
-<h2 id="sec-1">你说是什么呢？</h2>
-<div class="outline-text-2" id="text-1">
-
-
-<p>
-没什么好给你，但凭这阙歌。
-</p>
-</div>
-</div>
-
-]]></content>
-  </entry>
   
 </feed>
