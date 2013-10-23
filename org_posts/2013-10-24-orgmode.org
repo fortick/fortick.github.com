@@ -4,7 +4,8 @@ layout: post
 title: "orgmode"
 date: 2013-10-24 00:13
 comments: true
-categories: 
+categories:
+---
 #+END_HTML
 
 * 你说是什么呢？
