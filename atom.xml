@@ -4,7 +4,7 @@
   <title><![CDATA[山青云白的BLOG]]></title>
   <link href="http://blog.qingyunliao.com/atom.xml" rel="self"/>
   <link href="http://blog.qingyunliao.com/"/>
-  <updated>2013-09-25T15:15:16+08:00</updated>
+  <updated>2013-10-24T00:22:18+08:00</updated>
   <id>http://blog.qingyunliao.com/</id>
   <author>
     <name><![CDATA[cloud]]></name>
@@ -12,5 +12,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Orgmode]]></title>
+    <link href="http://blog.qingyunliao.com/blog/2013/10/23/orgmode/"/>
+    <updated>2013-10-23T00:00:00+08:00</updated>
+    <id>http://blog.qingyunliao.com/blog/2013/10/23/orgmode</id>
+    <content type="html"><![CDATA[<ol class='xoxo'>
+  <li>人生的意义</li>
+</ol>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Orgmode]]></title>
+    <link href="http://blog.qingyunliao.com/blog/2013/10/23/orgmode/"/>
+    <updated>2013-10-23T00:00:00+08:00</updated>
+    <id>http://blog.qingyunliao.com/blog/2013/10/23/orgmode</id>
+    <content type="html"><![CDATA[#+BEGIN_HTML
+---
+layout: post
+title: "orgmode"
+date: 2013-10-23 23:51
+comments: true
+categories: 
+#+END_HTML
+
+* 人生的意义
+
+没什么可给你，但凭这阙歌。
+]]></content>
+  </entry>
   
 </feed>
