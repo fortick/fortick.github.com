@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[山青云白的BLOG]]></title>
+  <link href="http://blog.qingyunliao.com/atom.xml" rel="self"/>
+  <link href="http://blog.qingyunliao.com/"/>
+  <updated>2013-10-24T10:24:16+08:00</updated>
+  <id>http://blog.qingyunliao.com/</id>
+  <author>
+    <name><![CDATA[cloud]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[UIWebView 使用要注意的几点]]></title>
+    <link href="http://blog.qingyunliao.com/blog/2013/10/24/webview-load-https-usage/"/>
+    <updated>2013-10-24T00:13:00+08:00</updated>
+    <id>http://blog.qingyunliao.com/blog/2013/10/24/webview-load-https-usage</id>
+    <content type="html"><![CDATA[<p>
+最近有客户希望将移动端统一使用HTML5来完成，在iOS端就要用到UIWebView。遇到了以下三个主要问题：
+</p>
+
+
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">加载HTTPS页面</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>  
+  不像Safari可以弹出弹框问用户是否忽略证书，在UIWebView中只会得到一个空白页。由于UIWebView并没有提供HTTPS相关的接口，所以不能直接在UIWebView中进行操作。经过stackoverflow知道，原来可以先通过NSURLConnection通过HTTPS验证，然后再用UIWebView加载页面，这样就达到了想要的目的。
+</p>
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>    <span class="err">#</span><span class="n">pragma</span> <span class="n">mark</span> <span class="o">-</span> <span class="n">Webview</span> <span class="n">delegate</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nl">webView:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="n">webView</span> <span class="nl">shouldStartLoadWithRequest:</span><span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="n">request</span> <span class="nl">navigationType:</span><span class="p">(</span><span class="n">UIWebViewNavigationType</span><span class="p">)</span><span class="n">navigationType</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Did start loading: %@ auth:%d&quot;</span><span class="p">,</span> <span class="p">[[</span><span class="n">request</span> <span class="n">URL</span><span class="p">]</span> <span class="n">absoluteString</span><span class="p">],</span> <span class="n">_authenticated</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_authenticated</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">_authenticated</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">_urlConnection</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSURLCoNnection</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithRequest:</span><span class="n">_request</span> <span class="nl">delegate:</span><span class="n">self</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="p">[</span><span class="n">_urlConnection</span> <span class="n">start</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">#</span><span class="n">pragma</span> <span class="n">mark</span> <span class="o">-</span> <span class="n">NURLConnection</span> <span class="n">delegate</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">connection:</span><span class="p">(</span><span class="n">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="n">connection</span> <span class="nl">didReceiveAuthenticationChallenge:</span><span class="p">(</span><span class="n">NSURLAuthenticationChallenge</span> <span class="o">*</span><span class="p">)</span><span class="n">challenge</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;WebController Got auth challange via NSURLConnection&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">challenge</span> <span class="n">previousFailureCount</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="n">_authenticated</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">NSURLCredential</span> <span class="o">*</span><span class="n">credential</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLCredential</span> <span class="nl">credentialForTrust:</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="p">[</span><span class="n">challenge</span><span class="p">.</span><span class="n">sender</span> <span class="nl">useCredential:</span><span class="n">credential</span> <span class="nl">forAuthenticationChallenge:</span><span class="n">challenge</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="p">[[</span><span class="n">challenge</span> <span class="n">sender</span><span class="p">]</span> <span class="nl">cancelAuthenticationChallenge:</span><span class="n">challenge</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">connection:</span><span class="p">(</span><span class="n">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="n">connection</span> <span class="nl">didReceiveResponse:</span><span class="p">(</span><span class="n">NSURLResponse</span> <span class="o">*</span><span class="p">)</span><span class="n">response</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;WebController received response via NSURLConnection&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// remake a webview call now that authentication has passed ok.</span>
+</span><span class='line'>        <span class="n">_authenticated</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">[</span><span class="n">_web</span> <span class="nl">loadRequest:</span><span class="n">_request</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Cancel the URL connection otherwise we double up (webview + url connection, same url = no good!)</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">_urlConnection</span> <span class="n">cancel</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// We use this method is to accept an untrusted site which unfortunately we need to do, as our PVM servers are self signed.</span>
+</span><span class='line'>    <span class="o">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nl">connection:</span><span class="p">(</span><span class="n">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="n">connection</span> <span class="nl">canAuthenticateAgainstProtectionSpace:</span><span class="p">(</span><span class="n">NSURLProtectionSpace</span> <span class="o">*</span><span class="p">)</span><span class="n">protectionSpace</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">authenticationMethod</span> <span class="nl">isEqualToString:</span><span class="n">NSURLAuthenticationMethodServerTrust</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+
+</div>
+
+
+
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">中文乱码</h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>  
+  由于服务器端使用的编码是GBK，UIWebView默认的是UTF-8编码，导致加载时出现乱码。将UIWebView的loadRequest方法用loadData方法来代替，具体代码如下：
+</p>
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString:</span><span class="n">_address</span><span class="p">.</span><span class="n">text</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfURL:</span><span class="n">url</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_web</span> <span class="nl">loadData:</span><span class="n">data</span> <span class="nl">MIMEType:</span><span class="s">@&quot;text/html&quot;</span> <span class="nl">textEncodingName:</span><span class="s">@&quot;GBK&quot;</span> <span class="nl">baseURL:</span><span class="n">url</span><span class="p">];</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+
+</div>
+
+
+
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3">旋转自适应</h2>
+<div class="outline-text-2" id="text-3">
+
+
+<p>  
+  当iOS设备从Portrait旋转为Landscape时，UIWebView的宽度只占屏幕的一半。发现是autoResize的相关参数没有进行设置，应该设置如下：
+</p>
+  
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>  <span class="n">_web</span><span class="p">.</span><span class="n">scalesPageToFit</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">_web</span><span class="p">.</span><span class="n">autoresizingMask</span> <span class="o">=</span> <span class="n">UIViewAutoresizingFlexibleWidth</span> <span class="o">|</span> <span class="n">UIViewAutoresizingFlexibleHeight</span><span class="p">;</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>  
+  又由于不同的Orientation，其缩放参数不一样，所以在旋转时应对scrollView的zoomScale进行设置，如下：
+</p>
+  
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>    <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">willRotateToInterfaceOrientation:</span><span class="p">(</span><span class="n">UIInterfaceOrientation</span><span class="p">)</span><span class="n">toInterfaceOrientation</span> <span class="nl">duration:</span><span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="n">duration</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;willRotateToInterfaceOrientation&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">CGFloat</span> <span class="n">ratioAspect</span> <span class="o">=</span> <span class="n">_web</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="n">_web</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">switch</span> <span class="p">(</span><span class="n">toInterfaceOrientation</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">case</span> <span class="nl">UIInterfaceOrientationPortraitUpsideDown:</span>
+</span><span class='line'>            <span class="k">case</span> <span class="nl">UIInterfaceOrientationPortrait:</span>
+</span><span class='line'>                <span class="c1">// Going to Portrait mode</span>
+</span><span class='line'>                <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Portrait mode&quot;</span><span class="p">);</span>
+</span><span class='line'>                <span class="k">for</span> <span class="p">(</span><span class="n">UIScrollView</span> <span class="o">*</span><span class="n">scroll</span> <span class="k">in</span> <span class="p">[</span><span class="n">_web</span> <span class="n">subviews</span><span class="p">])</span> <span class="p">{</span> <span class="c1">//we get the scrollview</span>
+</span><span class='line'>                    <span class="c1">// Make sure it really is a scroll view and reset the zoom scale.</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="p">([</span><span class="n">scroll</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setZoomScale:</span><span class="p">)]){</span>
+</span><span class='line'>                        <span class="n">scroll</span><span class="p">.</span><span class="n">minimumZoomScale</span> <span class="o">=</span> <span class="n">scroll</span><span class="p">.</span><span class="n">minimumZoomScale</span><span class="o">/</span><span class="n">ratioAspect</span><span class="p">;</span>
+</span><span class='line'>                        <span class="n">scroll</span><span class="p">.</span><span class="n">maximumZoomScale</span> <span class="o">=</span> <span class="n">scroll</span><span class="p">.</span><span class="n">maximumZoomScale</span><span class="o">/</span><span class="n">ratioAspect</span><span class="p">;</span>
+</span><span class='line'>                        <span class="p">[</span><span class="n">scroll</span> <span class="nl">setZoomScale:</span><span class="p">(</span><span class="n">scroll</span><span class="p">.</span><span class="n">zoomScale</span><span class="o">/</span><span class="n">ratioAspect</span><span class="p">)</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>                <span class="c1">// Going to Landscape mode</span>
+</span><span class='line'>                <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Landscape mode&quot;</span><span class="p">);</span>
+</span><span class='line'>                <span class="k">for</span> <span class="p">(</span><span class="n">UIScrollView</span> <span class="o">*</span><span class="n">scroll</span> <span class="k">in</span> <span class="p">[</span><span class="n">_web</span> <span class="n">subviews</span><span class="p">])</span> <span class="p">{</span> <span class="c1">//we get the scrollview</span>
+</span><span class='line'>                    <span class="c1">// Make sure it really is a scroll view and reset the zoom scale.</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="p">([</span><span class="n">scroll</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setZoomScale:</span><span class="p">)]){</span>
+</span><span class='line'>                        <span class="n">scroll</span><span class="p">.</span><span class="n">minimumZoomScale</span> <span class="o">=</span> <span class="n">scroll</span><span class="p">.</span><span class="n">minimumZoomScale</span> <span class="o">*</span><span class="n">ratioAspect</span><span class="p">;</span>
+</span><span class='line'>                        <span class="n">scroll</span><span class="p">.</span><span class="n">maximumZoomScale</span> <span class="o">=</span> <span class="n">scroll</span><span class="p">.</span><span class="n">maximumZoomScale</span> <span class="o">*</span><span class="n">ratioAspect</span><span class="p">;</span>
+</span><span class='line'>                        <span class="p">[</span><span class="n">scroll</span> <span class="nl">setZoomScale:</span><span class="p">(</span><span class="n">scroll</span><span class="p">.</span><span class="n">zoomScale</span><span class="o">*</span><span class="n">ratioAspect</span><span class="p">)</span> <span class="nl">animated:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>
