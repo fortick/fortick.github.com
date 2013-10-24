@@ -1,9 +1,0 @@
-#+BEGIN_HTML
----
-layout: post
-title: "tick"
-date: 2013-10-24 01:19
-comments: true
-categories: 
----
-#+END_HTML
