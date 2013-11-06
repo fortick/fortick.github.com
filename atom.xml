@@ -4,7 +4,7 @@
   <title><![CDATA[山青云白的BLOG]]></title>
   <link href="http://blog.qingyunliao.com/atom.xml" rel="self"/>
   <link href="http://blog.qingyunliao.com/"/>
-  <updated>2013-10-24T23:33:31+08:00</updated>
+  <updated>2013-11-06T22:58:28+08:00</updated>
   <id>http://blog.qingyunliao.com/</id>
   <author>
     <name><![CDATA[cloud]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Writing Before Dual Eleven]]></title>
+    <link href="http://blog.qingyunliao.com/blog/2013/11/06/writing-before-dual-eleven/"/>
+    <updated>2013-11-06T00:00:00+08:00</updated>
+    <id>http://blog.qingyunliao.com/blog/2013/11/06/writing-before-dual-eleven</id>
+    <content type="html"><![CDATA[<hr />
+
+<p>layout: post
+title: &ldquo;写在双十一前&rdquo;
+date: 2013-11-06 21:56
+comments: true
+categories: life</p>
+
+<div style="text-align:right;"><span style="padding-right:80px">人的一切痛苦，本质上都是对自己无能的愤怒</span></br>——王小波</div>
+
+
+<p></br></p>
+
+<p>
+时间已经深秋，在广州也是避免不了地感受到那袭人的凉意。早晚温差较大，差不多有十度左右，如果说在中午穿一件短袖不觉着冷，但在清晨与晚上就不得不加件衣了。当然，如果你身上的皮下组织多点，那就得另当别论了。
+</p>
+
+
+<p>
+九月初公司从越秀迁到了萝岗科学城，我也从那边的住处搬到了小新塘这边居住。上下班从原先的步行5分钟的路程变成现在骑自行车20分钟的样子。自行车是一辆二手的公路赛车，花了一百六十块外送一把锁买来的。当时觉得这车还是挺新的，结果却在买来的二十天之内连续不断地出现故障，不是飞轮坏了，就是经常爆胎，而已是不下十次，并且有几次是在不上不下的地儿出现，当时真有一股想把它给扔河里的冲动。最后还是把前后两个胎全换了，磨合之后也没再出什么问题。由于住的地方离公交站比较远，大概有十分钟的路，所以每天骑车上下班比起挤公交还是要爽那么一点点的。
+</p>
+
+
+<p>
+不知不觉到这已经有两月有余，期间经常到皇上那蹭饭。不得不说，皇上的手艺非常不错，犹其是煎蛋饼时所用的那一手颠勺技术，已经炉火纯青、几至化境，想用手机发条微博时，却发觉那瞬间早已消逝。我当时想着这项技能，至少也得花不少时间才能刷得出来的经验吧。老同学间吃吃饭、聊聊天，多多少少也算是对生活的一种慰藉吧。皇上呢，还在追求色、香、味俱全的路上，日子过得就是比一般人有格调些。
+</p>
+
+
+<p>
+上一周，我终于购买了人生当中的第一部智能机，同时也是我的第三部手机，iPhone 5C 绿色 16G，算是今年最大的花销吧。同时不得已买了张新的电话卡，不过目前还没有决定是否使用这个号码，所以暂时就先不通知了。如今我已经拥有了「传说中的三件套」，我想弱弱弱地问一声玉皇大帝，我现在是不是可以召唤女朋友了呢 ^_^
+</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UIWebView 使用要注意的几点]]></title>
